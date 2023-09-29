@@ -16,11 +16,10 @@
 #include <string>
 typedef std::map<std::string, std::vector<std::string> > mapped_net;
 
-template <typename T>
-class problemtrip: public problem<T> {
+class problemtrip: public problem<std::string> {
 public:
 	problemtrip(std::string init, std::string goal, const mapped_net& mn) :
-			problem<T>(init, goal), net(mn) {
+			problem(init, goal), net(mn) {
 	}
 	~problemtrip(){};
 	const std::vector<std::string> getActions(const std::string & currentState) const;
@@ -31,15 +30,13 @@ private:
 
 
 
-template <typename T>
-const std::vector<std::string> problemtrip<T>::getActions(
+const std::vector<std::string> problemtrip::getActions(
 		const std::string & currentState) const {
 	return net.at(currentState);
 }
 
 
-template <typename T>
-nodesearch<std::string>* problemtrip<T>::child(const nodesearch<std::string> & p,
+nodesearch<std::string>* problemtrip::child(const nodesearch<std::string> & p,
 		std::string a) const {
 //This function gives a new nodesearch object from a parent nodeserch p and an action.
 

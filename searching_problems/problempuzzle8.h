@@ -15,11 +15,10 @@
 #include <assert.h>
 #include <string>
 #include "puzzle8.h"
-template <typename T>
-class problempuzzle8: public problem<T> {
+class problempuzzle8: public problem<puzzle8> {
 public:
 	problempuzzle8(const puzzle8 &init, const puzzle8 &goal) :
-			problem<T>(init, goal) {
+			problem(init, goal) {
 	}
 	~problempuzzle8() {
 	}
@@ -28,8 +27,7 @@ public:
 };
 //the problem knows the successors for a given state, puzzle8 has only the information of the state
 
-template<class T>
-const std::vector<std::string> problempuzzle8<T>::getActions(
+const std::vector<std::string> problempuzzle8::getActions(
 		const puzzle8 & currentState) const {
 	std::vector<std::string> foo;
 	if (currentState.blank.first == 0 && currentState.blank.second == 0) {
@@ -79,8 +77,7 @@ const std::vector<std::string> problempuzzle8<T>::getActions(
 }
 
 
-template<class T>
-nodesearch<puzzle8>* problempuzzle8<T>::child(const nodesearch<puzzle8> & p,
+nodesearch<puzzle8>* problempuzzle8::child(const nodesearch<puzzle8> & p,
 		std::string a) const {
 //This function gives a new nodesearch object from a parent nodesearch p and an action.
 

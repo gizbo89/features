@@ -18,7 +18,7 @@ using namespace std;
 int main() {
 	puzzle8 init(1,2,0,4,7,3,6,8,5);
 	puzzle8 goal(1,2,3,4,0,5,6,7,8);
-	problempuzzle8<puzzle8> p(init,goal);
+	problempuzzle8 p(init,goal);
 	breadth_first(p);
 
 	map<std::string, std::vector<std::string>> mapa;      // empty map container
@@ -97,7 +97,7 @@ int main() {
 		destL.push_back("I");
 		mapa.insert(pair<std::string, std::vector<std::string>>("L", destL));
 
-		problemtrip<std::string> b("A", "M", mapa);
+		problemtrip b("A", "M", mapa);
 
 		breadth_first(b);
 }
