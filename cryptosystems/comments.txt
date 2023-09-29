@@ -1,0 +1,1 @@
+1.key should be a class, a more complex stuff than just a vector of bool

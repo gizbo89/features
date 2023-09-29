@@ -1,0 +1,21 @@
+Genetic Algorithms:
+ 1.Reproduction: Those better fitted can reproduce
+ 2.Crossover
+ 3.Mutation: Plays a secondary role , more rare.
+
+Crossover:
+k=4
+A1 = 0 1 1 0 | 1
+A2 = 1 1 0 0 | 0
+
+A1'= 0 1 1 0   0
+A2'= 1 1 0 0   1
+
+STEPS:
+
+- Initial population at random
+- Create mating pool (objective function)
+- Crossover
+- Mutation
+
+Ideas are deeply related with mutation

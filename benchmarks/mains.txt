@@ -1,0 +1,129 @@
+//This .txt file includes main examples that assess each implementation
+/*
+1.Assessment of nmatrix to solve a linear system
+2.Breadth-first algorithm applied to the shortest trip problem
+3.Breadth-first algorithm applied to the 8-puzzle problem
+*/
+//1.*********************************************************        
+	nmatrix g(4, 4);
+	g(0, 0) = 3.0;
+	g(0, 1) = 2.0;
+	g(0, 2) = 1.7;
+	g(0, 3) = 3.0;
+
+	g(1, 0) = 2.3;
+	g(1, 1) = 0.9;
+	g(1, 2) = 3.0;
+	g(1, 3) = 6.0;
+
+	g(2, 0) = 1.4;
+	g(2, 1) = 9.0;
+	g(2, 2) = 2.0;
+	g(2, 3) = 3.0;
+
+	g(3, 0) = 6.4;
+	g(3, 1) = 4.0;
+	g(3, 2) = 1.0;
+	g(3, 3) = 3.5;
+
+	double * bx;
+	bx = new double[4];
+	for (int i = 0; i < 4; i++) {
+		bx[i] = 1.0;
+	}
+	g.solveLinearSystem(bx);
+
+	cout << "Computed Solution: " << endl;
+	for (int i = 0; i < 4; i++) {
+		cout << bx[i] << endl;
+	}
+
+	delete bx;
+//2.*********************************************************
+	map<std::string, std::vector<std::string>> mapa;      // empty map container
+	//Creating mapping for A
+	std::vector<std::string> destA;
+	destA.push_back("B");
+	destA.push_back("C");
+	mapa.insert(pair<std::string, std::vector<std::string>>("A", destA));
+
+	//Creating mapping for B
+	std::vector<std::string> destB;
+	destB.push_back("A");
+	destB.push_back("D");
+	mapa.insert(pair<std::string, std::vector<std::string>>("B", destB));
+
+	//Creating mapping for C
+	std::vector<std::string> destC;
+	destC.push_back("A");
+	destC.push_back("E");
+	mapa.insert(pair<std::string, std::vector<std::string>>("C", destC));
+
+	//Creating mapping for D
+	std::vector<std::string> destD;
+	destD.push_back("B");
+	destD.push_back("F");
+	mapa.insert(pair<std::string, std::vector<std::string>>("D", destD));
+
+	//Creating mapping for E
+	std::vector<std::string> destE;
+	destE.push_back("C");
+	destE.push_back("F");
+	mapa.insert(pair<std::string, std::vector<std::string>>("E", destE));
+
+	//Creating mapping for F
+	std::vector<std::string> destF;
+	destF.push_back("D");
+	destF.push_back("E");
+	destF.push_back("G");
+	destF.push_back("H");
+	mapa.insert(pair<std::string, std::vector<std::string>>("F", destF));
+
+	//Creating mapping for G
+	std::vector<std::string> destG;
+	destG.push_back("F");
+	destG.push_back("J");
+	mapa.insert(pair<std::string, std::vector<std::string>>("G", destG));
+
+	//Creating mapping for H
+	std::vector<std::string> destH;
+	destH.push_back("F");
+	destH.push_back("J");
+	destH.push_back("I");
+	mapa.insert(pair<std::string, std::vector<std::string>>("H", destH));
+
+	//Creating mapping for I
+	std::vector<std::string> destI;
+	destI.push_back("H");
+	destI.push_back("L");
+	mapa.insert(pair<std::string, std::vector<std::string>>("I", destI));
+
+	//Creating mapping for J
+	std::vector<std::string> destJ;
+	destJ.push_back("G");
+	destJ.push_back("K");
+	destJ.push_back("H");
+	mapa.insert(pair<std::string, std::vector<std::string>>("J", destJ));
+
+	//Creating mapping for K
+	std::vector<std::string> destK;
+	destK.push_back("J");
+	mapa.insert(pair<std::string, std::vector<std::string>>("K", destK));
+
+	//Creating mapping for L
+	std::vector<std::string> destL;
+	destL.push_back("M");
+	destL.push_back("I");
+	mapa.insert(pair<std::string, std::vector<std::string>>("L", destL));
+
+	problemtrip b("A", "M", mapa);
+
+	breadth_first(b);
+	
+	//3.*********************************************************
+	puzzle8 init(1,2,0,4,7,3,6,8,5);
+    puzzle8 goal(1,2,3,4,0,5,6,7,8);
+
+    problempuzzle8 p(init,goal);
+
+    breadth_first(p);

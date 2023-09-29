@@ -1,0 +1,10 @@
+*The 8-puzzle:
+	Is a 3x3 board with eight numbered tiles and a blank space.
+	Goal state:
+	1 2 3
+	8   4
+	7 6 5
+	Operators:blank moves left, right, up or down.
+	States: a state description specifies the location of each of the eight tiles 	in one of the nine squares, also include the position of the blank.
+	Problem: Is defined for an initial position of the eight tiles.
+	
