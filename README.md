@@ -19,4 +19,3 @@ Please, read this document before getting to start.
 ### Who do I talk to? ###
 
 * Daniel del Pozo
-* Eva M. Andres-Lopez
