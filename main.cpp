@@ -11,11 +11,18 @@
 #include "cryptosystems/rsa.h"
 #include <algorithm>// std::reverse
 #include <thread>
-
+#include <Eigen/Dense>
+using Eigen::MatrixXd;
 using namespace std;
 //****************************************************************************80
 
 int main() {
+	MatrixXd m(2,2);
+	m(0,0) = 3;
+	m(1,0) = 2.5;
+	m(0,1) = -1;
+	m(1,1) = m(1,0) + m(0,1);
+	cout << m << endl;
 	puzzle8 init(1,2,0,4,7,3,6,8,5);
 	puzzle8 goal(1,2,3,4,0,5,6,7,8);
 	problempuzzle8 p(init,goal);

@@ -11,6 +11,7 @@ RM := rm -rf
 -include utils/subdir.mk
 -include searching_problems/subdir.mk
 -include cryptosystems/subdir.mk
+-include ANN/subdir.mk
 -include subdir.mk
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(C++_DEPS)),)
