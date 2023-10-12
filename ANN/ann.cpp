@@ -30,29 +30,30 @@ NeuralNetwork::NeuralNetwork(std::vector<uint> topology, Scalar learningRate)
     this->learningRate = learningRate;
     for (uint i = 0; i < topology.size(); i++) {
         // initialize neuron layers
-        if (i == topology.size() - 1)
+        if (i == topology.size() - 1)//last element
             neuronLayers.push_back(new RowVector(topology[i]));
         else
-            neuronLayers.push_back(new RowVector(topology[i] + 1));
+            neuronLayers.push_back(new RowVector(topology[i] + 1));//extra bias neuron
 
         // initialize cache and delta vectors
-        cacheLayers.push_back(new RowVector(neuronLayers.size()));
+        cacheLayers.push_back(new RowVector(neuronLayers.size()));//added RowVector's are changing in size at each iter
         deltas.push_back(new RowVector(neuronLayers.size()));
 
         // vector.back() gives the handle to recently added element
         // coeffRef gives the reference of value at that place
         // (using this as we are using pointers here)
-        if (i != topology.size() - 1) {
-            neuronLayers.back()->coeffRef(topology[i]) = 1.0;
+        if (i != topology.size() - 1) {// if not the last element
+            neuronLayers.back()->coeffRef(topology[i]) = 1.0;//??
             cacheLayers.back()->coeffRef(topology[i]) = 1.0;
         }
 
         // initialize weights matrix
-        if (i > 0) {
-            if (i != topology.size() - 1) {
-                weights.push_back(new Matrix(topology[i - 1] + 1, topology[i] + 1));
-                weights.back()->setRandom();
-                weights.back()->col(topology[i]).setZero();
+        if (i > 0) {//not in the first iter
+            if (i != topology.size() - 1) {// if not last element
+                weights.push_back(new Matrix(topology[i - 1] + 1, topology[i] + 1));//matrix of size rows of neurons in prev_layer + bias
+                //and cols neurons in current_layer + bias
+                weights.back()->setRandom();// all values set to random
+                weights.back()->col(topology[i]).setZero();//last col, bias col set to zero, except corner down right value
                 weights.back()->coeffRef(topology[i - 1], topology[i]) = 1.0;
             }
             else {
@@ -73,12 +74,12 @@ void NeuralNetwork::propagateForward(RowVector& input)
     neuronLayers.front()->block(0, 0, 1, neuronLayers.front()->size() - 1) = input;
 
     // propagate the data forward and then
-      // apply the activation function to your network
+    // apply the activation function to your network
     // unaryExpr applies the given function to all elements of CURRENT_LAYER
     for (uint i = 1; i < topology.size(); i++) {
         // already explained above
         (*neuronLayers[i]) = (*neuronLayers[i - 1]) * (*weights[i - 1]);
-          neuronLayers[i]->block(0, 0, 1, topology[i]).unaryExpr(std::ptr_fun(activationFunction));
+          neuronLayers[i]->block(0, 0, 1, topology[i]).unaryExpr(std::ref(activationFunction));
     }
 }
 
