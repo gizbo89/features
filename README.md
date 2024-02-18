@@ -16,4 +16,6 @@ Please, read this document before getting to start.
 ### Who do I talk to? ###
 
 * Daniel del Pozo
+
+### Problem ###
 ![alt text](https://github.com/gizbo89/features/blob/main/images/nodesearch.drawio.png?raw=true)
