@@ -3,4 +3,5 @@
 *.mk
 *.xml
 Debug/
+.settings/
 
