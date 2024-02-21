@@ -15,7 +15,7 @@ template <typename T>
 void breadth_first(problem<T> const & problem);
 
 template<typename T>
-static bool isin(T s, std::deque<T> r) {
+static bool isin(T const &s, std::deque<T> const &r) {
 	bool isin = false;
 	for (auto & n : r) {
 		if (n->get_state() == s->get_state()) {
@@ -23,71 +23,59 @@ static bool isin(T s, std::deque<T> r) {
 			break;
 		}
 	}
+
+	for (auto it = r.begin(); it != std::prev(r.end()); ++it) {
+	    if ((*it)->get_state() == s->get_state()) {
+	        isin = true;
+	        break;
+	    }
+	}
 	return isin;
 }
 
 
 template <typename T>
-void breadth_first(problem<T> const & problem) {
+void breadth_first(problem<T> & problem) {
 
-	//Create FIFO queues
-	std::deque<nodesearch<T>*> frontier;
-	std::deque<nodesearch<T>*> explored;
-
-
-	nodesearch<T> * p1 = new nodesearch<T>(problem.get_initial_state());//assign the node an initial state
-
-	if (problem.goalTest(p1->get_state())) {
+	if (problem.goalTest(problem.get_initial_state())) {
 		std::cout << "finished" << std::endl;
 		return;
 	}
 
-	frontier.push_back(p1);//add initial node to the frontier
-
 	bool go_ = true;
+	nodesearch<T>*  current = NULL;
+	nodesearch<T>*  lc = NULL;
 
 	while (go_) {
 
+
 		// Check for killing while
 		if(nodesearch<T>::counter > 300) go_=false;
-		if (frontier.empty()) {
-			std::cout << "Failure" << std::endl;
-			break;
-		}
-		// Add current frontier node to explored queue.
-		explored.push_back(frontier.front());
 
-		nodesearch<T>*  node = frontier.front();
+		current = problem.get_current_node();
 
-		frontier.pop_front();// removing it from the frontier
+		problem.front_to_explored();
 
-		for (auto& x : problem.getActions(node->get_state())) { //for each action in possible actions for a certain state
 
-			nodesearch<T> * child = problem.child(*node, x);
+		for (auto& x : problem.getActions(current->get_state())) { //for each action in possible actions for a certain state
+			problem.child(*current, x);
+			lc = problem.get_last_created_node();//last created node
 
-			if (!isin<nodesearch<T> *>(child, frontier) && !isin<nodesearch<T> *>(child, explored)) {//if child state is not in frontier and explored
-
-				if (problem.goalTest(child->get_state())) {
-					std::cout << "Solution reached: " << *child << std::endl;
+			if (!isin<nodesearch<T> *>(lc, problem.get_frontier()) && !isin<nodesearch<T> *>(lc, problem.get_explored())) {//if child state is not in frontier and explored
+				std::cout<<"Estoy alla"<<std::endl;
+				if (problem.goalTest(lc->get_state())) {
+					std::cout << "Solution reached: " << *lc << std::endl;
 					go_ = false;
-					frontier.push_back(child);
 					break; //affects for loop
 				}
-				frontier.push_back(child);
 			}
 			else {
-				delete child;
+				//delete child;
+				std::cout<<"Estoy aqui"<<std::endl;
 			}
 		}
 	}
 	std::cout<<"Number of nodesearch before desallocating dynamic memory: "<<nodesearch<T>::counter<<std::endl;
-	for (auto & p : frontier) {
-		delete p;
-	}
-	for (auto & p : explored) {
-		delete p;
-	}
-	std::cout<<"Number of nodesearch after desallocating dynamic memory: "<<nodesearch<T>::counter<<std::endl;
 }
 
 #endif /* SCRATCH_SEARCHING_PROBLEMS_SEARCHALGORITHMS_H_ */

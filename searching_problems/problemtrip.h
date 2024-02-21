@@ -23,7 +23,7 @@ public:
 	}
 	~problemtrip(){};
 	const std::vector<std::string> getActions(const std::string & currentState) const;
-    nodesearch<std::string>* child(const nodesearch<std::string> & p, std::string a) const;
+    void child(const nodesearch<std::string> & p, std::string a);
 private:
 	mapped_net net;
 };
@@ -36,8 +36,8 @@ const std::vector<std::string> problemtrip::getActions(
 }
 
 
-nodesearch<std::string>* problemtrip::child(const nodesearch<std::string> & p,
-		std::string a) const {
+void problemtrip::child(const nodesearch<std::string> & p,
+		std::string a) {
 //This function gives a new nodesearch object from a parent nodeserch p and an action.
 
 //Check that the action is feasible for the parent state
@@ -48,7 +48,7 @@ nodesearch<std::string>* problemtrip::child(const nodesearch<std::string> & p,
 					!= getActions(parent_state).end());
 //If the action belongs to the set of actions of p, then return a new nodesearch that has as state
 	//the action, and points to p.
-	return new nodesearch<std::string>(a, p, a);
+	frontier.push_back(new nodesearch<std::string>(a, p, a));
 }
 
 #endif /* SCRATCH_SEARCHING_PROBLEMS_PROBLEMTRIP_H_ */

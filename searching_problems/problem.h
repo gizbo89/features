@@ -23,17 +23,25 @@
 template <typename T>
 class problem{
 public:
-	problem(const T &init, const T& goal):_init_state(init), _goal_state(goal){};
+	problem(const T &init, const T& goal):_init_state(init), _goal_state(goal){frontier.push_back(new nodesearch<T>(init));}
     virtual const std::vector<std::string> getActions(const T& currentState) const = 0;
     virtual ~problem(){};
-    virtual nodesearch<T>*  child(const nodesearch<T> & p, std::string a) const = 0;
+    virtual void child(const nodesearch<T> & p, std::string a) = 0;
+    nodesearch<T>* get_current_node() const {return frontier.front();}
+    nodesearch<T>* get_last_created_node() const {return frontier.back();}
     bool    goalTest(const T& s) const;
+    void front_to_explored();
     const T& get_initial_state()const {return _init_state;}
     const T& get_goal_state()const {return _goal_state;}
+    const std::deque<nodesearch<T>*>& get_frontier()const {return frontier;}
+    const std::deque<nodesearch<T>*>& get_explored()const {return explored;}
 private:
     T            _init_state;
     T            _goal_state;
-    //Problem should know the topology of the solutions, vector of pointers to nodesearch, and then be able to deallocate
+protected:
+    //Topology of the solution space
+    std::deque<nodesearch<T>*> frontier;
+    std::deque<nodesearch<T>*> explored;
 };
 
 
@@ -47,6 +55,13 @@ bool problem<T>::goalTest(const T& s) const{
 	return foo;
 }
 
+
+template<class T>
+void problem<T>::front_to_explored() {
+	// Add current frontier node to explored queue
+	explored.push_back(frontier.front());
+	frontier.pop_front();// removing it from the frontier
+}
 
 
 #endif /* SCRATCH_UTILS_PROBLEM_H_ */
