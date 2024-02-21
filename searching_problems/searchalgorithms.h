@@ -48,12 +48,13 @@ void breadth_first(problem<T> const & problem) {
 
 	while (go_) {
 
+		// Check for killing while
 		if(nodesearch<T>::counter > 300) go_=false;
 		if (frontier.empty()) {
 			std::cout << "Failure" << std::endl;
 			break;
 		}
-
+		// Add current frontier node to explored queue.
 		explored.push_back(frontier.front());
 
 		nodesearch<T>*  node = frontier.front();

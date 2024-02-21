@@ -33,6 +33,7 @@ public:
 private:
     T            _init_state;
     T            _goal_state;
+    //Problem should know the topology of the solutions, vector of pointers to nodesearch, and then be able to deallocate
 };
 
 
