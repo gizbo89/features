@@ -26,7 +26,7 @@ public:
 	problem(const T &init, const T& goal):_init_state(init), _goal_state(goal){frontier.push_back(new nodesearch<T>(init));}
     virtual const std::vector<std::string> getActions(const T& currentState) const = 0;
     virtual ~problem(){};
-    virtual void child(const nodesearch<T> & p, std::string a) = 0;
+    virtual bool child(const nodesearch<T> & p, std::string a) = 0;
     nodesearch<T>* get_current_node() const {return frontier.front();}
     nodesearch<T>* get_last_created_node() const {return frontier.back();}
     bool    goalTest(const T& s) const;
@@ -42,8 +42,21 @@ protected:
     //Topology of the solution space
     std::deque<nodesearch<T>*> frontier;
     std::deque<nodesearch<T>*> explored;
+    bool isin(nodesearch<T>* const &s, std::deque<nodesearch<T>*> const &r);
 };
 
+template<typename T>
+bool problem<T>::isin(nodesearch<T>* const &s, std::deque<nodesearch<T>*> const &r) {
+	bool isin = false;
+	for (auto & n : r) {
+		if (n->get_state() == s->get_state()) {
+			isin = true;
+			break;
+		}
+	}
+
+	return isin;
+}
 
 template<class T>
 bool problem<T>::goalTest(const T& s) const{

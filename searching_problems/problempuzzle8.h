@@ -23,7 +23,7 @@ public:
 	~problempuzzle8() {
 	}
 	const std::vector<std::string> getActions(const puzzle8 & currentState) const;
-	void child(const nodesearch<puzzle8> & p,std::string a);
+	bool child(const nodesearch<puzzle8> & p,std::string a);
 };
 //the problem knows the successors for a given state, puzzle8 has only the information of the state
 
@@ -77,7 +77,7 @@ const std::vector<std::string> problempuzzle8::getActions(
 }
 
 
-void problempuzzle8::child(const nodesearch<puzzle8> & p,
+bool problempuzzle8::child(const nodesearch<puzzle8> & p,
 		std::string a) {
 //This function gives a new nodesearch object from a parent nodesearch p and an action.
 
@@ -109,7 +109,17 @@ void problempuzzle8::child(const nodesearch<puzzle8> & p,
 		foo(foo.blank.first - 1, foo.blank.second) = 0;
 		foo.blank.first--;
 	}
-	frontier.push_back(new nodesearch<puzzle8>(foo, p, a));
+
+	nodesearch<puzzle8>* aux = new nodesearch<puzzle8>(foo, p, a);
+
+	if (!problem<puzzle8>::isin(aux, frontier) && !problem<puzzle8>::isin(aux, explored)){
+		frontier.push_back(aux);
+		return true;
+	}
+	else{
+		delete aux;
+		return false;
+	}
 }
 
 

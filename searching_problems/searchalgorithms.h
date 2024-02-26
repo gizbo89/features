@@ -14,24 +14,6 @@
 template <typename T>
 void breadth_first(problem<T> const & problem);
 
-template<typename T>
-static bool isin(T const &s, std::deque<T> const &r) {
-	bool isin = false;
-	for (auto & n : r) {
-		if (n->get_state() == s->get_state()) {
-			isin = true;
-			break;
-		}
-	}
-
-	for (auto it = r.begin(); it != std::prev(r.end()); ++it) {
-	    if ((*it)->get_state() == s->get_state()) {
-	        isin = true;
-	        break;
-	    }
-	}
-	return isin;
-}
 
 
 template <typename T>
@@ -58,20 +40,13 @@ void breadth_first(problem<T> & problem) {
 
 
 		for (auto& x : problem.getActions(current->get_state())) { //for each action in possible actions for a certain state
-			problem.child(*current, x);
-			lc = problem.get_last_created_node();//last created node
-
-			if (!isin<nodesearch<T> *>(lc, problem.get_frontier()) && !isin<nodesearch<T> *>(lc, problem.get_explored())) {//if child state is not in frontier and explored
-				std::cout<<"Estoy alla"<<std::endl;
+			if (problem.child(*current, x)) {//if child state is not in frontier and explored
+				lc = problem.get_last_created_node();//last created node
 				if (problem.goalTest(lc->get_state())) {
 					std::cout << "Solution reached: " << *lc << std::endl;
 					go_ = false;
 					break; //affects for loop
 				}
-			}
-			else {
-				//delete child;
-				std::cout<<"Estoy aqui"<<std::endl;
 			}
 		}
 	}
