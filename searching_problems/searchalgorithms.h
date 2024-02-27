@@ -50,7 +50,6 @@ void breadth_first(problem<T> & problem) {
 			}
 		}
 	}
-	std::cout<<"Number of nodesearch before desallocating dynamic memory: "<<nodesearch<T>::counter<<std::endl;
 }
 
 #endif /* SCRATCH_SEARCHING_PROBLEMS_SEARCHALGORITHMS_H_ */
